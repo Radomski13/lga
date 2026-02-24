@@ -13,7 +13,7 @@ form.addEventListener('submit', async e => {
     const tastinessWeight = Number(document.getElementById('tastiness').value);
     const restaurantNames = document.getElementById('restaurants').value.split(',').map(s => s.trim());
 
-    const res = await fetch('/calculate', {
+    const res = await fetch('/api/calculate', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ car, tastinessWeight, userLat, userLng, restaurantNames })
