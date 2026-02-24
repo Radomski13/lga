@@ -41,8 +41,10 @@ export default async function handler(req, res) {
 
       const geoData = await geoRes.json();
 
-      if (!geoData.results || geoData.results.length === 0) continue;
-
+if (geoData.status !== "OK") {
+  console.log("Geocode failed for", name, geoData.status);
+  continue;
+}
       const location = geoData.results[0].geometry.location;
 
       const distance = haversine(userLat, userLng, location.lat, location.lng);
