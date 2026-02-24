@@ -26,7 +26,7 @@ form.addEventListener('submit', async e => {
     });
 
     const service = new google.maps.places.PlacesService(map);
-    const request = { location:{lat:userLat,lng:userLng}, radius:5000, type:["restaurant"] };
+    const request = { location:{lat:userLat,lng:userLng}, radius:10000, type:["restaurant"] };
 
     service.nearbySearch(request, async (results, status) => {
       if (status !== google.maps.places.PlacesServiceStatus.OK) { 
