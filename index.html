@@ -2,36 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lunch Decision Algorithm</title>
-<link rel="stylesheet" href="style.css">
-<style>
-  #map { height: 400px; width: 100%; margin-top: 20px; }
-</style>
+<link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<div class="container">
-<h1>🍽️ Lunch Decision Algorithm</h1>
-<form id="ldaForm">
-  <label>Car Type:
+  <h1>Lunch Decision Algorithm</h1>
+
+  <form id="ldaForm">
+    <label for="car">Car type:</label>
     <select id="car">
       <option value="sedan">Sedan</option>
       <option value="suv">SUV</option>
       <option value="truck">Truck</option>
       <option value="hybrid">Hybrid</option>
     </select>
-  </label>
-  <label>Tastiness Weight (1-10):
-    <input type="number" id="tastiness" min="1" max="10" value="5">
-  </label>
-  <label>Restaurant Names (comma separated):
-    <input type="text" id="restaurants" placeholder="Martin's BBQ, Katerina's, etc.">
-  </label>
-  <button type="submit">Decide!</button>
-</form>
-<div id="results"></div>
-<div id="map"></div>
-</div>
-<script src="script.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkuoPwtUgGt8TgESuJ-2MQbNeHzRVuUxA&libraries=places"></script>
+
+    <label for="tastiness">Tastiness weight (1-10):</label>
+    <input type="number" id="tastiness" value="7" min="1" max="10">
+
+    <button type="submit">Decide</button>
+  </form>
+
+  <div id="results"></div>
+  <div id="map" style="width:100%;height:500px;margin-top:20px;"></div>
+
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkuoPwtUgGt8TgESuJ-2MQbNeHzRVuUxA&libraries=places"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
