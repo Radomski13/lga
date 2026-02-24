@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lunch Decision Algorithm</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  #map { height: 400px; width: 100%; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🍽️ Lunch Decision Algorithm</h1>
+<form id="ldaForm">
+  <label>Car Type:
+    <select id="car">
+      <option value="sedan">Sedan</option>
+      <option value="suv">SUV</option>
+      <option value="truck">Truck</option>
+      <option value="hybrid">Hybrid</option>
+    </select>
+  </label>
+  <label>Tastiness Weight (1-10):
+    <input type="number" id="tastiness" min="1" max="10" value="5">
+  </label>
+  <label>Restaurant Names (comma separated):
+    <input type="text" id="restaurants" placeholder="Martin's BBQ, Katerina's, etc.">
+  </label>
+  <button type="submit">Decide!</button>
+</form>
+<div id="results"></div>
+<div id="map"></div>
+</div>
+<script src="script.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_API_KEY"></script>
+</body>
+</html>
