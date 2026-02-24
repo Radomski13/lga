@@ -29,10 +29,14 @@ form.addEventListener('submit', async e => {
     const request = { location:{lat:userLat,lng:userLng}, radius:10000, type:["restaurant"] };
 
     service.nearbySearch(request, async (results, status) => {
-      if (status !== google.maps.places.PlacesServiceStatus.OK) { 
-        console.error("Places API error:", status); 
-        return; 
-      }
+  console.log("Places API status:", status);
+  console.log("Places results:", results);
+  if (status !== google.maps.places.PlacesServiceStatus.OK) { 
+    console.error("Places API error:", status); 
+    return; 
+  }
+  ...
+});
 
       const topRestaurants = results.slice(0, 10);
       const restaurantData = topRestaurants.map(r => ({
