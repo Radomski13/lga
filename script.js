@@ -19,8 +19,9 @@ form.addEventListener('submit', async e => {
       body: JSON.stringify({ car, tastinessWeight, userLat, userLng, restaurantNames })
     });
 
-    const data = await res.json();
-
+const data = await res.json();
+console.log("API RESPONSE:", data);
+    
     resultsDiv.innerHTML = '<h2>Recommended Restaurants:</h2>' + data.map((r, idx) => `
       <div class="restaurant">
         <h3>${r.name}</h3>
