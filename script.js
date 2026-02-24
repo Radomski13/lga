@@ -18,6 +18,7 @@ form.addEventListener('submit', async e => {
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer({ map });
 
+    // User location marker
     new google.maps.Marker({
       position:{lat:userLat,lng:userLng},
       map,
@@ -25,35 +26,38 @@ form.addEventListener('submit', async e => {
       icon:"http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
     });
 
+    // Places API nearby search
     const service = new google.maps.places.PlacesService(map);
-    const request = { location:{lat:userLat,lng:userLng}, radius:10000, type:["restaurant"] };
+    const request = { location:{lat:userLat,lng:userLng}, radius:10000, type:["restaurant"] }; // radius 10 km
 
     service.nearbySearch(request, async (results, status) => {
-  console.log("Places API status:", status);
-  console.log("Places results:", results);
-  if (status !== google.maps.places.PlacesServiceStatus.OK) { 
-    console.error("Places API error:", status); 
-    return; 
-  }
-  ...
-});
+      console.log("Places API status:", status);
+      console.log("Places API results:", results);
 
-      const topRestaurants = results.slice(0, 10);
-      const restaurantData = topRestaurants.map(r => ({
+      if (status !== google.maps.places.PlacesServiceStatus.OK) { 
+        console.error("Places API error:", status); 
+        resultsDiv.innerHTML = `<p>No restaurants found or API error: ${status}</p>`;
+        return; 
+      }
+
+      // Prepare array for backend
+      const restaurantData = results.slice(0,10).map(r => ({
         name: r.name,
         lat: r.geometry.location.lat(),
         lng: r.geometry.location.lng()
       }));
 
+      // Send to backend
       const res = await fetch('/api/calculate', {
-  method: 'POST',
-  headers: { 'Content-Type':'application/json' },
-  body: JSON.stringify({ car, tastinessWeight, userLat, userLng, restaurantData }) // DO NOT SPREAD THE ARRAY
-});
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify({ car, tastinessWeight, userLat, userLng, restaurantData })
+      });
 
       const data = await res.json();
 
-      resultsDiv.innerHTML = '<h2>Recommended Restaurants:</h2>' + data.map((r, idx) => `
+      // Render results
+      resultsDiv.innerHTML = '<h2>Recommended Restaurants:</h2>' + data.map(r => `
         <div class="restaurant">
           <h3>${r.name}</h3>
           <p>Distance: ${r.distance} miles</p>
@@ -63,6 +67,7 @@ form.addEventListener('submit', async e => {
         </div>
       `).join('');
 
+      // Markers
       data.forEach((r, idx) => {
         const color = idx===0?"green":idx===1?"yellow":"red";
         new google.maps.Marker({
@@ -73,14 +78,19 @@ form.addEventListener('submit', async e => {
         });
       });
 
+      // Route to top restaurant
       if(data.length>0){
         const top = data[0];
         directionsService.route({
           origin:{lat:userLat,lng:userLng},
           destination:{lat:top.lat,lng:top.lng},
           travelMode:'DRIVING'
-        }, (resp,status) => { if(status==='OK') directionsRenderer.setDirections(resp); });
+        }, (resp,status) => { 
+          if(status==='OK') directionsRenderer.setDirections(resp); 
+          else console.error(status);
+        });
       }
+
     });
 
   });
