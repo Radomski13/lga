@@ -46,10 +46,10 @@ form.addEventListener('submit', async e => {
       }));
 
       const res = await fetch('/api/calculate', {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({ car, tastinessWeight, userLat, userLng, restaurantData })
-      });
+  method: 'POST',
+  headers: { 'Content-Type':'application/json' },
+  body: JSON.stringify({ car, tastinessWeight, userLat, userLng, restaurantData }) // DO NOT SPREAD THE ARRAY
+});
 
       const data = await res.json();
 
