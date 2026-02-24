@@ -39,8 +39,11 @@ export default async function handler(req, res) {
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(name)}&key=${process.env.GOOGLE_API_KEY}`
       );
 
-      const geoData = await geoRes.json();
+const geoData = await geoRes.json();
+console.log("Geocode response for", name, geoData);
 
+if (!geoData.results || geoData.results.length === 0) continue;
+      
 if (geoData.status !== "OK") {
   console.log("Geocode failed for", name, geoData.status);
   continue;
